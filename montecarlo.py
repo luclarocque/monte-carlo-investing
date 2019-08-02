@@ -31,7 +31,7 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12):
     bins = [[(k,k+inc-1),0] for k in range(lb,ub,inc)]
 
     # create random array: each row is a full simulation, with data for all years specified
-    rand_arr = create_rand_array(r, sd, years, N, peryear)
+    rand_arr = create_rand_array(r, sd, t, N, peryear)
     recession_adjustment(rand_arr, t, r)
     res_arr = []  # stores all final results
     for i in range(N):  # loop through N simulations

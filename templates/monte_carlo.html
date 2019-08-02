@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <title>Monte Carlo Investing</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Monte Carlo Investing Simulator</a>
+                </div>
+            </div>
+        </nav>
+
+    <div class="container">
+        {{errors}}
+        <p>Enter your numbers:</p>
+
+        <div class="row">
+            <form action="." method="POST">
+                <textarea class="form-control" name="pv" placeholder="Enter Present Value (PV)"></textarea>
+                <textarea class="form-control" name="pmt" placeholder="Enter regular payment amount (PMT)"></textarea>
+                <textarea class="form-control" name="t" placeholder="Enter number of years (t)"></textarea>
+                <textarea class="form-control" name="r" placeholder="Enter annual interest (I/Y)"></textarea>
+                <input type="submit" class="btn btn-success" value="Enter">
+            </form>
+        </div>
+
+        {% if result != None %}
+            <div class="row">
+                The median outcome of 1000 simulations is: {{ result }}
+            </div>
+        {% endif %}
+
+    </div><!-- /.container -->
+
+    </body>
+</html>
