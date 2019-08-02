@@ -24,24 +24,31 @@
         </nav>
 
     <div class="container">
-        {{errors}}
-        <p>Enter your numbers:</p>
-
+        {{ errors }}
         <div class="row">
             <form action="." method="POST">
-                <textarea class="form-control" name="pv" placeholder="Enter Present Value (PV)"></textarea>
-                <textarea class="form-control" name="pmt" placeholder="Enter regular payment amount (PMT)"></textarea>
-                <textarea class="form-control" name="t" placeholder="Enter number of years (t)"></textarea>
-                <textarea class="form-control" name="r" placeholder="Enter annual interest (I/Y)"></textarea>
+                <label>PV: </label><textarea class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"></textarea>
+                <label>PMT: </label><textarea class="form-control" name="pmt" placeholder="Enter monthly payment amount"></textarea>
+                <label># years: </label><textarea class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"></textarea>
+                <label>annual interest: </label><textarea class="form-control" name="r" placeholder="Enter annual interest as percentage, e.g., 7"></textarea>
                 <input type="submit" class="btn btn-success" value="Enter">
             </form>
         </div>
 
-        {% if result != None %}
-            <div class="row">
-                The median outcome of 1000 simulations is: {{ result }}
-            </div>
-        {% endif %}
+        <div class="row">
+            The median outcome of 1000 simulations is: {{ result }}
+        </div>
+
+        <div>
+            <style scoped>
+                img {
+                      max-width: 110%;
+                      height: auto;
+                    }
+            </style>
+            <img src="/static/images/plot.png" alt="Plots of simulation results" style="">
+        </div>
+
 
     </div><!-- /.container -->
 
