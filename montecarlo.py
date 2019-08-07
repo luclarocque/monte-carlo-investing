@@ -7,7 +7,9 @@ from scipy.stats import percentileofscore
 from finlib import create_rand_array, recession_adjustment, ror_with_pmts
 import os
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-out_filename = os.path.join(THIS_FOLDER, 'assets/images/plot.png')
+fileid = np.random.randint(1e9, 9e9, dtype='int64')
+plot_fname = 'plot{}.png'.format(fileid)
+out_filename = os.path.join(THIS_FOLDER, 'assets/images/' + plot_fname)
 
 
 def simulate(PV, PMT, t, r, sd, N=1000, peryear=12):
@@ -26,7 +28,8 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12):
     n = t*peryear
 
     # percentiles to be displayed
-    show_percentiles = [1,10,25,50,75,90,99]
+    show_percentiles = [10,25,50,75,90]
+    show_percentiles.reverse()
 
     inc = 50000  # increment (step size) and bin width
     lb = int(-1e6)  # lower bound of bins
@@ -146,7 +149,7 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12):
     # final step---------------------------------------------------------
     plt.plot()
     plt.savefig(out_filename)
-    return "${:,.2f}".format(percentiles[50])
+    return ( "${:,.2f}".format(percentiles[50]), plot_fname )
 
 
 if __name__ == "__main__":

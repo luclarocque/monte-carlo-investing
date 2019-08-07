@@ -27,27 +27,29 @@
         {{ errors }}
         <div class="row">
             <form action="." method="POST">
-                <label>PV: </label><textarea class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"></textarea>
-                <label>PMT: </label><textarea class="form-control" name="pmt" placeholder="Enter monthly payment amount"></textarea>
-                <label># years: </label><textarea class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"></textarea>
-                <label>annual interest: </label><textarea class="form-control" name="r" placeholder="Enter annual interest as percentage, e.g., 7"></textarea>
+                <label>PV: </label>
+                <input class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"
+                    value="{{ request.form["pv"] }}"></input>
+
+                <label>PMT: </label>
+                <input class="form-control" name="pmt" placeholder="Enter monthly payment amount"
+                    value="{{ request.form["pmt"] }}"></input>
+
+                <label># years: </label>
+                <input class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"
+                    value="{{ request.form["t"] }}"></input>
+
+                <label>annual rate of return: </label>
+                <input class="form-control" name="r" placeholder="Enter annual interest as percentage, e.g., 7"
+                    value="{{ request.form["r"] }}"></input>
+
                 <input type="submit" class="btn btn-success" value="Enter">
             </form>
         </div>
 
-        <div class="row">
-            The median outcome of 1000 simulations is: {{ result }}
-        </div>
+        {{ result | safe }}
 
-        <div>
-            <style scoped>
-                img {
-                      max-width: 110%;
-                      height: auto;
-                    }
-            </style>
-            <img src="/static/images/plot.png" alt="Plots of simulation results" style="">
-        </div>
+        {{ plot | safe }}
 
 
     </div><!-- /.container -->
