@@ -86,7 +86,7 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12):
     # plot histogram
     counts1, bins1, patches1 = ax1.hist(res_arr)
 
-    # add vertical line indicating the median 
+    # add vertical line indicating the median
     ax1.text(percentiles[50], 3, "50%:\n{:,}".format(int(percentiles[50])), color='w')
     ax1.axvline(x=percentiles[50], color='k')  # plot median line
     # ax1.text(percentiles[5], 3, "5%:\n{:,}".format(int(percentiles[5])), color='w')
@@ -94,7 +94,7 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12):
 
     # formatting
     ax1.title.set_text(
-    "Starting with ${:,.0f} with {}% interest over {} years and payments of {:,.0f}".format(PV, r, t, PMT))
+    "Starting with \${:,.0f} with {:,.1f}% interest over {} years and payments of \${:,.0f}".format(PV, r, t, PMT))
     ax1.xaxis.set_label_text("Total Market Value")
     ax1.yaxis.set_label_text("Number of Simulations (out of {})".format(N))
     ax1.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
@@ -165,8 +165,8 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12):
 
     # final step---------------------------------------------------------
     plt.plot()
-    # plt.savefig(out_filename)
-    # return ( "${:,.2f}".format(percentiles[50]), plot_fname )
+    plt.savefig(out_filename)
+    return ( "${:,.2f}".format(percentiles[50]), plot_fname )
 
 
 if __name__ == "__main__":

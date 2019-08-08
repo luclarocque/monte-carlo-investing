@@ -1,0 +1,17 @@
+{% extends "monte_carlo.html" %}
+
+{% block showplot %}
+    {% if plot %}
+        <div>
+            <style scoped>
+                img {
+                      max-width: 110%;
+                      height: auto;
+                    }
+            </style>
+            <img src="{{ plot }}" alt="Plots of simulation results">
+        </div>
+    {% else %}
+        {{ super() }}
+    {% endif %}
+{% endblock %}

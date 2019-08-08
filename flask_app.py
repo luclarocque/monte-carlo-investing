@@ -14,7 +14,6 @@ app.config["DEBUG"] = True
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-    result = ""
     plot = ""
     errors = ""
 
@@ -23,14 +22,15 @@ def index():
         os.remove(path)
 
     if request.method == "GET":
-        return render_template("monte_carlo.html")
+        return render_template("display_plot.html")
 
     if request.method == "POST":
         pv = None
         pmt = None
         t = None
         r = None
-        sd = 11.4
+        sd = None
+        inflation = 0
 
         # validate input
         try:
@@ -47,43 +47,28 @@ def index():
                 errors += "# years must be greater than 0.\n"
         except:
             errors += "# years {} is not a whole number.\n".format(request.form["t"])
-        try:
-            r = float(request.form["r"])
-            if r < 0:
-                errors += "Annual interest rate must be greater than or equal to 0.\n"
-        except:
-            errors += "Annual interest rate {} is invalid.\n".format(request.form["t"])
+        # try:
+        #     r = float(request.form["r"])
+        #     if r < 0:
+        #         errors += "Annual interest rate must be greater than or equal to 0.\n"
+        # except:
+        #     errors += "Annual interest rate {} is invalid.\n".format(request.form["t"])
 
         # if errors occurred
         if errors:
-            return render_template("monte_carlo.html", errors=errors)
-            # return redirect(url_for('index'))
+            return render_template("display_plot.html", errors=errors)
 
         # variables defined. Apply simulate().
-        result, plot_fname = simulate(pv, pmt, t, r, sd)
-        result = '''
-        <div class="row">
-        ''' + \
-        '''
-            The median outcome upon running 2,000 possible random scenarios is: {}
-        '''.format(result) + \
-        '''
-        </div>
-        '''
-        plot = '''
-            <div>
-                <style scoped>
-                    img {
-                          max-width: 110%;
-                          height: auto;
-                        }
-                </style>
-            ''' + \
-            '    <img src=/static/images/{} alt="Plots of simulation results">'.format(plot_fname) + \
-            '''
-            </div>
-            '''
-        return render_template("monte_carlo.html", result=result, plot=plot)
+        interest = request.form["interest"]
+        inflation = request.form.get('inflation')
+        inflation = float(inflation) if inflation else 0
+        print("inflation:", inflation)
+        r, sd = map(float, str(interest).split(','))  # split string value obtained from radio button
+        r -= inflation
+        median, plot_fname = simulate(pv, pmt, t, r, sd)
+        plot = "/static/images/{}".format(plot_fname)
+        return render_template("display_plot.html", plot=plot)
+        # return redirect(url_for('index'))
 
 
 

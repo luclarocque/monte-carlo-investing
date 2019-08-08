@@ -23,36 +23,51 @@
             </div>
         </nav>
 
-    <div class="container">
-        {{ errors }}
-        <div class="row">
-            <form action="." method="POST">
-                <label>PV: </label>
-                <input class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"
-                    value="{{ request.form["pv"] }}"></input>
+        <div class="container">
+            {{ errors }}
+            <div class="row">
+                <form action="." method="POST">
+                    <label>Present Value: </label>
+                    <input class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"
+                        value="{{ request.form["pv"] }}"></input>
 
-                <label>PMT: </label>
-                <input class="form-control" name="pmt" placeholder="Enter monthly payment amount"
-                    value="{{ request.form["pmt"] }}"></input>
+                    <label>Monthly Payment: </label>
+                    <input class="form-control" name="pmt" placeholder="Enter monthly payment amount"
+                        value="{{ request.form["pmt"] }}"></input>
 
-                <label># years: </label>
-                <input class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"
-                    value="{{ request.form["t"] }}"></input>
+                    <label>Number of Years: </label>
+                    <input class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"
+                        value="{{ request.form["t"] }}"></input>
 
-                <label>annual rate of return: </label>
-                <input class="form-control" name="r" placeholder="Enter annual interest as percentage, e.g., 7"
-                    value="{{ request.form["r"] }}"></input>
+                    <!--<label>annual rate of return: </label>-->
+                    <!--<input class="form-control" name="r" placeholder="Enter annual interest as percentage, e.g., 7"-->
+                    <!--    value="{{ request.form["r"] }}"></input>-->
+                    <label>Asset Mix (equity / bond) </label><br>
+                    <input type="radio" name="interest" id="interest100" value="6.6, 10.6"> 100% / 0% <br>
+                    <input type="radio" name="interest" id="interest80" value="5.9, 8.7"> 80% / 20% <br>
+                    <input type="radio" name="interest" id="interest60" value="5.2, 6.8"> 60% / 40% <br>
+                    <input type="radio" name="interest" id="interest40" value="4.6, 5.3"> 40% / 60% <br>
+                    <input type="radio" name="interest" id="interest20" value="3.9, 4.1"> 20% / 80% <br>
+                    <input type="radio" name="interest" id="interest0" value="3.2, 3.9"> 0% / 100% <br><br>
 
-                <input type="submit" class="btn btn-success" value="Enter">
-            </form>
-        </div>
+                    <label>Inflation: </label>
+                    <input type="checkbox" name="inflation" value="1.7">Check to account for inflation (values remain in today's dollars)<br>
 
-        {{ result | safe }}
+                    <input type="submit" class="btn btn-success" value="Enter">
+                </form>
+            </div>
 
-        {{ plot | safe }}
+
+        </div><!-- /.container -->
 
 
-    </div><!-- /.container -->
+        <div class="container">
+
+            {% block showplot %}
+            {% endblock %}
+
+            * Interest rates and standard deviations taken from <a href="https://www.pwlcapital.com/wp-content/uploads/2019/03/PWL-WP-Kerzerho-Bortolotti-Great-Expectations-2019.pdf">PWL Capital's: Great Expectations 2019</a>.
+        </div><!-- /.container -->
 
     </body>
 </html>
