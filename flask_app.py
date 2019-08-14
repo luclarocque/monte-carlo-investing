@@ -32,6 +32,14 @@ def index():
         sd = None
         inflation = 0
 
+        # define dictionary of values: (interest, stddev). Key is percentage in equities.
+        interest_sd_dict = {'100': (6.6, 10.6),
+                            '80': (5.9, 8.7),
+                            '60': (5.2, 6.8),
+                            '40': (4.6, 5.3),
+                            '20': (3.9, 4.1),
+                            '0': (3.2, 3.9)}
+
         # validate input
         try:
             pv = float(request.form["pv"])
@@ -47,26 +55,22 @@ def index():
                 errors += "# years must be greater than 0.\n"
         except:
             errors += "# years {} is not a whole number.\n".format(request.form["t"])
-        # try:
-        #     r = float(request.form["r"])
-        #     if r < 0:
-        #         errors += "Annual interest rate must be greater than or equal to 0.\n"
-        # except:
-        #     errors += "Annual interest rate {} is invalid.\n".format(request.form["t"])
+        try:
+            asset_mix = request.form['asset_mix']
+        except:
+            errors += "You must select an asset mix to determine the expected annual rate of return."
 
         # if errors occurred
         if errors:
-            return render_template("display_plot.html", errors=errors)
-
-        # variables defined. Apply simulate().
-        interest = request.form["interest"]
+            return render_template("error.html", errors=errors)
+        # define variables and simulate
         inflation = request.form.get('inflation')
         inflation = float(inflation) if inflation else 0
-        print("inflation:", inflation)
-        r, sd = map(float, str(interest).split(','))  # split string value obtained from radio button
+        r, sd = interest_sd_dict[asset_mix]  # get value from radio button to extract r, sd
         r -= inflation
         median, plot_fname = simulate(pv, pmt, t, r, sd)
         plot = "/static/images/{}".format(plot_fname)
+
         return render_template("display_plot.html", plot=plot)
         # return redirect(url_for('index'))
 

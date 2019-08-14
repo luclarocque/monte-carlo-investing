@@ -24,7 +24,6 @@
         </nav>
 
         <div class="container">
-            {{ errors }}
             <div class="row">
                 <form action="." method="POST">
                     <label>Present Value: </label>
@@ -42,16 +41,19 @@
                     <!--<label>annual rate of return: </label>-->
                     <!--<input class="form-control" name="r" placeholder="Enter annual interest as percentage, e.g., 7"-->
                     <!--    value="{{ request.form["r"] }}"></input>-->
-                    <label>Asset Mix (equity / bond) </label><br>
-                    <input type="radio" name="interest" id="interest100" value="6.6, 10.6"> 100% / 0% <br>
-                    <input type="radio" name="interest" id="interest80" value="5.9, 8.7"> 80% / 20% <br>
-                    <input type="radio" name="interest" id="interest60" value="5.2, 6.8"> 60% / 40% <br>
-                    <input type="radio" name="interest" id="interest40" value="4.6, 5.3"> 40% / 60% <br>
-                    <input type="radio" name="interest" id="interest20" value="3.9, 4.1"> 20% / 80% <br>
-                    <input type="radio" name="interest" id="interest0" value="3.2, 3.9"> 0% / 100% <br><br>
+                    <label>Asset Mix (equities / bonds): </label><br>
+                    <input type="radio" name="asset_mix" id="100" value=100 {% if request.form.get('asset_mix')=='100' %} checked {% endif %}> 100% / 0% <br>  <!-- set values and determine which is checked from backend (use django here) -->
+                    <input type="radio" name="asset_mix" id="80"  value=80  {% if request.form.get('asset_mix')=='80' %} checked {% endif %}> 80% / 20% <br>
+                    <input type="radio" name="asset_mix" id="60"  value=60  {% if request.form.get('asset_mix')=='60' %} checked {% endif %}> 60% / 40% <br>
+                    <input type="radio" name="asset_mix" id="40"  value=40  {% if request.form.get('asset_mix')=='40' %} checked {% endif %}> 40% / 60% <br>
+                    <input type="radio" name="asset_mix" id="20"  value=20  {% if request.form.get('asset_mix')=='20' %} checked {% endif %}> 20% / 80% <br>
+                    <input type="radio" name="asset_mix" id="0"   value=0   {% if request.form.get('asset_mix')=='0' %} checked {% endif %}> 0% / 100% <br><br>
 
                     <label>Inflation: </label>
-                    <input type="checkbox" name="inflation" value="1.7">Check to account for inflation (values remain in today's dollars)<br>
+                    <input type="checkbox" name="inflation" value="1.7" checked>Check to account for inflation (values remain in today's dollars)<br>
+
+                    {% block alert %}
+                    {% endblock %}
 
                     <input type="submit" class="btn btn-success" value="Enter">
                 </form>
@@ -66,7 +68,8 @@
             {% block showplot %}
             {% endblock %}
 
-            * Interest rates and standard deviations taken from <a href="https://www.pwlcapital.com/wp-content/uploads/2019/03/PWL-WP-Kerzerho-Bortolotti-Great-Expectations-2019.pdf">PWL Capital's: Great Expectations 2019</a>.
+            * Interest rates and risk (std. dev.) values taken from <a href="https://www.pwlcapital.com/wp-content/uploads/2019/03/PWL-WP-Kerzerho-Bortolotti-Great-Expectations-2019.pdf">PWL Capital's: Great Expectations 2019</a>.<br>
+            Values are based on an index fund portfolio with an equal proportion of Canadian, US, and International exposure.
         </div><!-- /.container -->
 
     </body>
