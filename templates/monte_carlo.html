@@ -38,9 +38,6 @@
                     <input class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"
                         value="{{ request.form["t"] }}"></input>
 
-                    <!--<label>annual rate of return: </label>-->
-                    <!--<input class="form-control" name="r" placeholder="Enter annual interest as percentage, e.g., 7"-->
-                    <!--    value="{{ request.form["r"] }}"></input>-->
                     <label>Asset Mix (equities / bonds): </label><br>
                     <input type="radio" name="asset_mix" id="100" value=100 {% if request.form.get('asset_mix')=='100' %} checked {% endif %}> 100% / 0% <br>  <!-- set values and determine which is checked from backend (use django here) -->
                     <input type="radio" name="asset_mix" id="80"  value=80  {% if request.form.get('asset_mix')=='80' %} checked {% endif %}> 80% / 20% <br>
@@ -49,8 +46,15 @@
                     <input type="radio" name="asset_mix" id="20"  value=20  {% if request.form.get('asset_mix')=='20' %} checked {% endif %}> 20% / 80% <br>
                     <input type="radio" name="asset_mix" id="0"   value=0   {% if request.form.get('asset_mix')=='0' %} checked {% endif %}> 0% / 100% <br><br>
 
-                    <label>Inflation: </label>
-                    <input type="checkbox" name="inflation" value="1.7" checked>Check to account for inflation (values remain in today's dollars)<br>
+                    <label>Inflation: </label><br>
+                    <input type="checkbox" name="inflation" value="1.7" checked>Check to account for inflation (values remain in today's dollars)<br><br>
+
+                    <label>Number of Simulations (larger values may require longer load time.)</label><br>
+                    <select name="num_sims">
+                        <option value="1000" {% if request.form.get('num_sims')!="5000" and request.form.get('num_sims')!="10000" %} selected {% endif %}>1,000</option>
+                        <option value="5000" {% if request.form.get('num_sims')=="5000" %} selected {% endif %}>5,000</option>
+                        <option value="10000" {% if request.form.get('num_sims')=="10000" %} selected {% endif %}>10,000</option>
+                    </select><br><br>
 
                     {% block alert %}
                     {% endblock %}

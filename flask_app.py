@@ -4,7 +4,7 @@
 from flask import Flask, redirect, render_template, request, url_for
 # from flask_sqlalchemy import SQLAlchemy  # use this if database required
 from montecarlo import simulate
-import os, re
+import os
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 out_dir = os.path.join(THIS_FOLDER, 'assets/images/')
 
@@ -30,6 +30,7 @@ def index():
         t = None
         r = None
         sd = None
+        N = None
         inflation = 0
 
         # define dictionary of values: (interest, stddev). Key is percentage in equities.
@@ -59,6 +60,10 @@ def index():
             asset_mix = request.form['asset_mix']
         except:
             errors += "You must select an asset mix to determine the expected annual rate of return."
+        try:
+            N = int(request.form["num_sims"])
+        except:
+            errors += "You must select the number of simulations to run."
 
         # if errors occurred
         if errors:
@@ -68,7 +73,7 @@ def index():
         inflation = float(inflation) if inflation else 0
         r, sd = interest_sd_dict[asset_mix]  # get value from radio button to extract r, sd
         r -= inflation
-        median, plot_fname = simulate(pv, pmt, t, r, sd)
+        median, plot_fname = simulate(pv, pmt, t, r, sd, N=N)
         plot = "/static/images/{}".format(plot_fname)
 
         return render_template("display_plot.html", plot=plot)
