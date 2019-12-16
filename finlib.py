@@ -46,6 +46,7 @@ def FV(pv, pmt, t, r, peryear=12):
 def ror_with_pmts(fv, pv, pmt, t, peryear=12):
     '''
     Returns the compound annual growth rate of an investment with regular payments.
+
     Inputs:
     FV: future value
     pmt: non-zero regular payment amount.
@@ -95,6 +96,37 @@ def recession_adjustment(arr, t, r, mean_drop=-30., std_drop=7., mean_duration=0
     return arr
 
 
+def short_num(n, dec=1):
+    '''
+    shorter_num returns a string. The string is shortened version of number n
+    using common suffixes.
+    Examples:
+    short_num(10000, 0) -> 10K
+    short_num(3456789, 1) -> 3.5M
+    short_num(1123456789, 1) -> 1.1B
+
+    Inputs:
+    n: int (or float) to convert
+    dec: number of decimal places to keep in returned string
+    '''
+    n = int(n)
+    if n==0:
+        return '0'
+    num_zeros = np.floor(np.log10(np.abs(n))) # e.g., 12345-> 10000-> 4 zeros
+    suff_num = np.floor(num_zeros/3)
+    pre_num = n/(1000**suff_num)
+    # determine the appropriate suffix, or rely on scientific notation
+    if suff_num==1:
+        suff = 'K'
+    elif suff_num==2:
+        suff = 'M'
+    elif suff_num==3:
+        suff = 'B'
+    else:
+        suff = 'e{:.0f}'.format(num_zeros)
+    return '{:.{prec}f}{}'.format(pre_num, suff, prec=dec)
+
+
 def date_back(curdate, years, months):
     '''
     curdate is a datetime.date object, years and months are the number
@@ -133,5 +165,7 @@ if __name__ == '__main__':
     # --- Testing ror_with_pmts ---
     # ror = ror_with_pmts(873286.87, 30000, 3000, 15)
     # print(ror, ror/12)
+
+    # print(short_num(1293950115789))
 
     pass

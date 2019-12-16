@@ -41,7 +41,7 @@ def index():
                             '20': (3.9, 4.1),
                             '0': (3.2, 3.9)}
 
-        # validate input
+        # validate input ----------------------------------------------------------------------------
         try:
             pv = float(request.form["pv"])
         except:
@@ -64,10 +64,11 @@ def index():
             N = int(request.form["num_sims"])
         except:
             errors += "You must select the number of simulations to run."
-
         # if errors occurred
         if errors:
             return render_template("error.html", errors=errors)
+        # -------------------------------------------------------------------------------------------
+
         # define variables and simulate
         inflation = request.form.get('inflation')
         inflation = float(inflation) if inflation else 0

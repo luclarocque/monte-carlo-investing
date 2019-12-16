@@ -24,9 +24,22 @@
         </nav>
 
         <div class="container">
+            This tool is used to give you a sense of the likelihood of reaching your goals.
+            Monte Carlo simulations use thousands of randomly generated possibilities based on currently available statistics to determine an entire array of possible future outcomes.
+            Results are provided in terms of <i>percentiles</i>: a measure of what percentage of outcomes are <i>below</i> a given number.
+            E.g., suppose the 10th percentile shows an outcome of $100; that number is at the bottom 10% of all simulations. In other words, there is a 10% chance of ending up with $100 <i>or less</i>.
+            Conversely, in this case there is a 90% chance of ending up with <i>more than</i> $100.
+        </div>
+
+        <br>
+
+        <div class="container">
             <div class="row">
                 <form action="." method="POST">
-                    <label>Present Value: </label>
+                    <label>
+                        Present Value:
+                        <!--<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-original-title="Amount of money invested initially."></span>-->
+                    </label>
                     <input class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"
                         value="{{ request.form["pv"] }}"></input>
 
@@ -74,7 +87,7 @@
 
             * Interest rates and risk (std. dev.) values taken from <a href="https://www.pwlcapital.com/wp-content/uploads/2019/03/PWL-WP-Kerzerho-Bortolotti-Great-Expectations-2019.pdf">PWL Capital's: Great Expectations 2019</a>.<br>
             Values are based on an index fund portfolio with an equal proportion of Canadian, US, and International exposure.
-        </div><!-- /.container -->
+        </div>
 
     </body>
 </html>
