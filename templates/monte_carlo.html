@@ -46,15 +46,15 @@
                         <!--<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-original-title="Amount of money invested initially."></span>-->
                     </label>
                     <input class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"
-                        value="{{ request.form["pv"] }}"></input>
+                        value="{{ request.form["pv"] }}"/>
 
                     <label>Monthly Payment: </label>
                     <input class="form-control" name="pmt" placeholder="Enter monthly payment amount"
-                        value="{{ request.form["pmt"] }}"></input>
+                        value="{{ request.form["pmt"] }}"/>
 
                     <label>Number of Years: </label>
                     <input class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"
-                        value="{{ request.form["t"] }}"></input>
+                        value="{{ request.form["t"] }}"/>
 
                     <label>Asset Mix (equities / bonds): </label><br>
                     <input type="radio" name="asset_mix" id="100" value=100 {% if request.form.get('asset_mix')=='100' %} checked {% endif %}> 100% / 0% <br>  <!-- set values and determine which is checked from backend (use django here) -->
