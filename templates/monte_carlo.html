@@ -12,76 +12,99 @@
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                    <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
+                    <!--    <span class="sr-only">Toggle navigation</span>-->
+                    <!--    <span class="icon-bar"></span>-->
+                    <!--    <span class="icon-bar"></span>-->
+                    <!--    <span class="icon-bar"></span>-->
+                    <!--</button>-->
                     <a class="navbar-brand" href="#">Monte Carlo Investing Simulator</a>
                 </div>
             </div>
         </nav>
 
         <div class="container">
-            <div class='text-primary'>
-                This tool is used to give you a sense of the likelihood of reaching your financial goals.
-                Monte Carlo simulations use many randomly generated possibilities based on currently available statistics to determine an array of possible outcomes.
-                Results are provided in terms of <i>percentiles</i>: a measure of what percentage of outcomes are <i>below</i> a given number.
+            <div>
+                <h4 class="text-justify">
+                    This tool is used to give you a sense of the likelihood of reaching your financial goals.
+                </h4>
             </div>
             <div>
-                Example: the 10th percentile is the number at the boundary between the worst 10% and the best 90% of all simulations.
-                If the 10th percentile is $500, there is a 10% chance of ending up with $500 <i>or less</i>.
-                It also means that there is a 90% chance of ending up with <i>more than</i> $500.
+                <h4>
+                    Monte Carlo simulations use many randomly generated possibilities based on currently available statistics to determine an array of possible outcomes.
+                    Results are provided in terms of final value and percentile.
+                </h4>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">Example</div>
+                <div class="panel-body">
+                    The 10th percentile is the number at the boundary between the worst 10% and the best 90% of all simulated outcomes.<br>
+                    If the 10th percentile is $500, there is a 10% chance of ending up with $500 <i>or less</i>.<br>
+                    It also means that there is a 90% chance of ending up with <i>more than</i> $500.
+                </div>
             </div>
         </div>
 
         <br>
 
         <div class="container">
-            <div class="row">
-                <form action="." method="POST">
-                    <label>
+            <form action="." method="POST">
+                <div class="form-group">
+                    <label for="inputPV" data-toggle="tooltip" data-placement="top" data-delay=0 title="Amount invested initially.">
                         Present Value:
-                        <!--<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-original-title="Amount of money invested initially."></span>-->
                     </label>
+                    <!--<span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Amount invested initially."></span>-->
                     <input class="form-control" name="pv" placeholder="Enter present value (how much is initially invested)"
                         value="{{ request.form["pv"] }}"/>
+                </div>
 
-                    <label>Monthly Payment: </label>
+                <div class="form-group">
+                    <label for="inputPMT" data-toggle="tooltip" data-placement="top" data-delay=0 title="Amount invested every month.">
+                        Monthly Payment:
+                    </label>
                     <input class="form-control" name="pmt" placeholder="Enter monthly payment amount"
                         value="{{ request.form["pmt"] }}"/>
+                </div>
 
-                    <label>Number of Years: </label>
+                <div class="form-group">
+                    <label for="inputYears" data-toggle="tooltip" data-placement="top" data-delay=0 title="Number of years to invest">
+                        Number of Years:
+                    </label>
                     <input class="form-control" name="t" placeholder="Enter number of years (whole numbers only)"
                         value="{{ request.form["t"] }}"/>
+                </div>
 
+                <div class="form-group">
                     <label>Asset Mix (equities / bonds): </label><br>
                     <input type="radio" name="asset_mix" id="100" value=100 {% if request.form.get('asset_mix')=='100' %} checked {% endif %}> 100% / 0% <br>  <!-- set values and determine which is checked from backend (use django here) -->
                     <input type="radio" name="asset_mix" id="80"  value=80  {% if request.form.get('asset_mix')=='80' %} checked {% endif %}> 80% / 20% <br>
                     <input type="radio" name="asset_mix" id="60"  value=60  {% if request.form.get('asset_mix')=='60' %} checked {% endif %}> 60% / 40% <br>
                     <input type="radio" name="asset_mix" id="40"  value=40  {% if request.form.get('asset_mix')=='40' %} checked {% endif %}> 40% / 60% <br>
                     <input type="radio" name="asset_mix" id="20"  value=20  {% if request.form.get('asset_mix')=='20' %} checked {% endif %}> 20% / 80% <br>
-                    <input type="radio" name="asset_mix" id="0"   value=0   {% if request.form.get('asset_mix')=='0' %} checked {% endif %}> 0% / 100% <br><br>
+                    <input type="radio" name="asset_mix" id="0"   value=0   {% if request.form.get('asset_mix')=='0' %} checked {% endif %}> 0% / 100% <br>
+                </div>
 
+                <div class="form-group">
                     <label>Inflation: </label><br>
-                    <input type="checkbox" name="inflation" value="1.7" checked>Check to account for inflation (values remain in today's dollars)<br><br>
+                    <input type="checkbox" name="inflation" value="1.8" checked> Check to account for inflation (values remain in today's dollars)<br><br>
+                </div>
 
+                <div class="form-group">
                     <label>Number of Simulations (larger values may require longer load time.)</label><br>
                     <select name="num_sims">
                         <option value="1000" {% if request.form.get('num_sims')!="5000" and request.form.get('num_sims')!="10000" %} selected {% endif %}>1,000</option>
                         <option value="5000" {% if request.form.get('num_sims')=="5000" %} selected {% endif %}>5,000</option>
                         <option value="10000" {% if request.form.get('num_sims')=="10000" %} selected {% endif %}>10,000</option>
-                    </select><br><br>
+                    </select>
+                </div>
 
-                    {% block alert %}
-                    {% endblock %}
+                <br>
 
-                    <input type="submit" class="btn btn-success" value="Enter">
-                </form>
-            </div>
+                {% block alert %}
+                {% endblock %}
 
-
+                <input type="submit" class="btn btn-success" value="Enter">
+            </form>
         </div><!-- /.container -->
 
 

@@ -87,8 +87,6 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12, show_percentiles=(90, 75, 50
     # add vertical line indicating the median
     ax1.text(percentiles[50], 3, "50%:\n{:,}".format(int(percentiles[50])), color='w')
     ax1.axvline(x=percentiles[50], color='k')  # plot median line
-    # ax1.text(percentiles[5], 3, "5%:\n{:,}".format(int(percentiles[5])), color='w')
-    # ax1.axvline(x=percentiles[5], color='k')  # plot 5th percentile line
 
     # formatting
     ax1.title.set_text(
@@ -168,7 +166,7 @@ def simulate(PV, PMT, t, r, sd, N=1000, peryear=12, show_percentiles=(90, 75, 50
 
     # legend
     # show_percentiles.reverse()  # to display in proper order in legend of ax3
-    labels = ['$' + str(pct) + '^{th}$' + ' percentile: ' + out_str for pct, out_str in zip(show_percentiles, outcome_str_lst)]
+    labels = [str(pct) + 'th' + ' percentile: ' + out_str for pct, out_str in zip(show_percentiles, outcome_str_lst)]
     ax3.legend(timeseries, labels, loc='upper left')
 
 
