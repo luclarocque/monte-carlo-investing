@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import datetime
 import pandas.plotting._converter as pandacnv
 pandacnv.register()
-from finlib import date_back
+from finlib import date_back, relative_return
 
 tickers = ['VUN.TO', 'XIC.TO', 'XEC.TO']
 num_years_back = 3
@@ -38,10 +38,10 @@ def plot_stocks(tickers, num_years_back=1, num_months_back=0):
 
     for name in tickers:
         data = close.loc[:, name]
-        stock_returns = 100*(data/data[0] - 1)
+        stock_returns = relative_return(data)
 
         # Calculate the n_mav days moving averages of the closing prices
-        n_mav = 30
+        n_mav = 60
         rolling_stock = stock_returns.rolling(window=n_mav, center=True)
         print()
         print(rolling_stock)
