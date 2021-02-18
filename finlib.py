@@ -64,7 +64,16 @@ def ror_with_pmts(fv, pv, pmt, t, peryear=12):
     return float(fsolve(func, 0.07))
 
 
-def recession_adjustment(arr, t, r, mean_drop=-30., std_drop=7., mean_duration=0.9, std_duration=0.3, mean_bull=5.,
+def num_months_normal(mean, std):
+    '''
+    Returns an integer number of months based on the mean and standard deviation of the duration of a period.
+    mean: in years
+    std: in years
+    '''
+    return int(np.round(np.abs(np.random.normal(mean, std) * 12)))
+
+
+def recession_adjustment(arr, t, r, mean_drop=-30., std_drop=7., mean_bear=0.9, std_bear=0.3, mean_bull=5.,
                          std_bull=1.5):
     '''
     Returns an adjusted array based on arr of shape (N x num_months), where N: num_simulations. arr is over t years. 
@@ -79,23 +88,28 @@ def recession_adjustment(arr, t, r, mean_drop=-30., std_drop=7., mean_duration=0
         months_to_go = n
         while months_to_go > 0:
             if months_to_go == n:  # first run: shorten initial bull market
-                bull_months = int(np.round(np.abs(np.random.normal(mean_bull / 2, std_bull) * 12)))
+                bull_months = num_months_normal(mean_bull/2, std_bull)
             else:
-                bull_months = int(np.round(np.abs(np.random.normal(mean_bull, std_bull) * 12)))
-            months_to_go -= bull_months
+                bull_months = num_months_normal(mean_bull, std_bull)
+            months_to_go -= bull_months  # update number of months left by skipping index past the bull months
             if months_to_go > 0:
-                bear_months = int(np.round(np.abs(np.random.normal(mean_duration, std_duration) * 12)))
+                bear_months = num_months_normal(mean_bear, std_bear)
                 if months_to_go - bear_months <= 0:
                     break
                 # print("mean annual growth initially:", np.mean(arr[i])*12)
                 # print("bear market starts month", n - months_to_go)
                 # print("bear_months:", bear_months)
                 # pp.pprint(arr[i][-months_to_go:-(months_to_go-bear_months)])
+
+                # replace bear month data with new normal data based on bear market parameters
                 arr[i][-months_to_go:-(months_to_go - bear_months)] = np.random.normal(mean_drop / 100.,
                                                                                        std_drop / 100.,
                                                                                        bear_months) / 12
+                # calculate mean of this row with the new data (mean is now reduced)
                 mean_i = np.mean(arr[i])
                 # print("mean annual growth with recession:", mean_i*12)
+
+                # bump up all data in this row by an average of (r/12 - mean_i)
                 arr[i] = arr[i] + (np.random.normal(r / 12 / 100, 0.01 / 12) - mean_i)
                 # print("mean annual growth with mean adjusted up:", np.mean(arr[i])*12)
                 # pp.pprint(arr[i][-months_to_go:-(months_to_go-bear_months)])
