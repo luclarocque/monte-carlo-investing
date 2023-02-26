@@ -110,6 +110,7 @@ def recession_adjustment(arr, t, r, mean_drop=-30., std_drop=7., mean_bear=0.9, 
                 # print("mean annual growth with recession:", mean_i*12)
 
                 # bump up all data in this row by an average of (r/12 - mean_i)
+                # since subtracting mean_i yields zero-mean data, then add back expected monthly return r/12
                 arr[i] = arr[i] + (np.random.normal(r / 12 / 100, 0.01 / 12) - mean_i)
                 # print("mean annual growth with mean adjusted up:", np.mean(arr[i])*12)
                 # pp.pprint(arr[i][-months_to_go:-(months_to_go-bear_months)])
